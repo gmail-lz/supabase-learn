@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "rootDir": "apps/api/src",
+    "outDir": "apps/api/dist"
+  },
+  "include": ["apps/api/src/**/*.ts"],
+  "exclude": ["node_modules", ".nuxt", "apps/web/.nuxt", "apps/api/dist"]
+}

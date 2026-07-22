@@ -1,1 +1,14 @@
-﻿.tools/
+﻿node_modules
+.output
+.nuxt
+.data
+.env
+.env.*
+!.env.example
+.DS_Store
+dist
+coverage
+.tools
+gh-login.ps1
+.idea/
+.tmp_dev_*.log

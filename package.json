@@ -1,0 +1,47 @@
+{
+  "name": "supabase-learn",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev": "concurrently -n web,api -c cyan,green \"pnpm run dev:web\" \"pnpm run dev:api\"",
+    "dev:web": "nuxt dev --host 0.0.0.0 --port 3000",
+    "dev:api": "tsx watch apps/api/src/index.ts",
+    "build": "pnpm run build:web && pnpm run build:api",
+    "build:web": "nuxt build",
+    "build:api": "tsc -p tsconfig.json",
+    "start:api": "node apps/api/dist/index.js",
+    "preview:web": "nuxt preview",
+    "lint": "pnpm run typecheck",
+    "typecheck": "pnpm run typecheck:web && pnpm run typecheck:api",
+    "typecheck:web": "nuxt typecheck",
+    "typecheck:api": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@nuxtjs/supabase": "^1.6.0",
+    "@supabase/supabase-js": "^2.52.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
+    "nuxt": "^4.5.0",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^22.13.14",
+    "concurrently": "^9.2.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^3.3.7"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0",
+    "pnpm": ">=10.0.0"
+  }
+}
