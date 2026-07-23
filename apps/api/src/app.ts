@@ -32,11 +32,51 @@ import {
 import { getProductHandler, listProductsHandler } from './routes/products.js'
 import { getUserHandler, loginUserHandler, registerUserHandler } from './routes/users.js'
 
+function parseAllowedOrigins(raw: string) {
+  return raw
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+}
+
+function isOriginAllowed(origin: string, allowedOrigins: string[]) {
+  return allowedOrigins.some((rule) => {
+    if (rule === '*') return true
+    if (rule === origin) return true
+
+    if (rule.startsWith('*.')) {
+      try {
+        const hostname = new URL(origin).hostname
+        return hostname === rule.slice(2) || hostname.endsWith(rule.slice(1))
+      } catch {
+        return false
+      }
+    }
+
+    return false
+  })
+}
+
 export function createApp() {
   const app = express()
+  const allowedOrigins = parseAllowedOrigins(env.CORS_ORIGIN)
 
   app.use(helmet())
-  app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }))
+  app.use(
+    cors({
+      credentials: true,
+      origin: (origin, callback) => {
+        // 非浏览器请求（例如 curl / server-to-server）没有 origin，默认放行。
+        if (!origin) return callback(null, true)
+
+        if (isOriginAllowed(origin, allowedOrigins)) {
+          return callback(null, true)
+        }
+
+        return callback(new Error(`CORS blocked: ${origin}`))
+      }
+    })
+  )
   app.use(express.json())
   app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'))
 
