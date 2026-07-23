@@ -1,5 +1,5 @@
 import { fromNodeMiddleware } from 'h3'
-import { createApp } from '../../../../api/src/app'
+import { createApp } from '../../apps/api/src/app'
 
 const apiApp = createApp()
 
